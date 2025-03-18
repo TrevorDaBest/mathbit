@@ -37,7 +37,7 @@
 
       if (username.value in data.record) {
         // Existing user: verify password
-        if (data.record[username.value]["pass"] === password.value) {
+        if (data["record"][username.value]["pass"] === password.value) {
           alert(`Welcome Back, ${username.value}`);
           localStorage.setItem("users", username.value);
           open("homepage.html");
@@ -45,7 +45,7 @@
           alert("Incorrect password. Please try again.");
         }
       } else {
-        data.record[username.value] = {
+        data["record"][username.value] = {
           email: email.value,
           pass: password.value,
           info: {
