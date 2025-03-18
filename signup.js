@@ -1,4 +1,4 @@
-<script>
+
   const signUpButton = document.getElementById("signup");
   const username = document.getElementById("user");
   const email = document.getElementById("email");
@@ -81,5 +81,5 @@
       alert("Failed to retrieve data. Please try again.");
     });
   });
-</script>
+
 
