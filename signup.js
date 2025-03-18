@@ -28,6 +28,7 @@ signUpButton.addEventListener("click", async function (e) {
         headers: {
             "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO",
             "X-Bin-Private": false
+        }
     )
     .then(response => response.json())
     .then(data => console.log(data));
