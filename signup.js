@@ -39,6 +39,7 @@
         // Existing user: verify password
         if (data.record[username.value]["pass"] === password.value) {
           alert(`Welcome Back, ${username.value}`);
+          localStorage.setItem("users", username.value);
           open("homepage.html");
         } else {
           alert("Incorrect password. Please try again.");
@@ -68,6 +69,7 @@
         .then(updated => {
           console.log("Data updated:", updated);
           alert(`Welcome, ${username.value}! Your signup is complete.`);
+          localStorage.setItem("users", username.value);
           open("homepage.html");
         })
         .catch(err => {
