@@ -26,10 +26,16 @@ signUpButton.addEventListener("click", async function (e) {
     fetch('https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133/latest', {
         method: "GET",
         headers: {
-            "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO",
-            "X-Bin-Private": false
+            "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO"
         }
-    )
+    })
     .then(response => response.json())
-    .then(data => console.log(data));
+    .then(data => {
+        console.log(data);
+        alert(`Welcome, ${username.value}! Your signup is complete.`);
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Failed to retrieve data. Please try again.");
+    });
 });
