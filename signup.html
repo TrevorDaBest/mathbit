@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up to Mathbit!</title>
+
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <h1>You made the CORRECT choice!</h1>
+    <form id="info" method="POST">
+        <input type="text" id="user" placeholder="Username" required>
+        <input type="password" id="pass" placeholder="Password" required>
+        <input type="email" id="email" placeholder="Email" required>
+        
+        <input type="hidden" name="username" id="hiddenUsername">
+        <input type="hidden" name="password" id="hiddenPassword">
+        <input type="hidden" name="userEmail" id="hiddenUserEmail">
+        <input type="hidden" name="userMessage" id="hiddenMessage">
+    
+        <button type="button" id="signup">Sign Up</button>
+    </form>
+    
+    <script src="signup.js"></script>
+</body>
+</html>

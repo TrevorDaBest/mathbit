@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Enable LaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+    <link href="demogame.css" rel="stylesheet">
+
+    <title>Document</title>
+</head>
+<body>
+    <div class="math">\[ 
+        2x + 3y = 7
+    \]</div>
+    <div class="math">\[ 
+        x - y = 1
+    \]</div>
+
+    <p>Solution: (<input type="number", id="x1">, <input type="number", id="y1">)</p>
+    <button id="submit">Submit</button>
+
+    <p id="time-left">20 seconds left!</p>
+    <p id="result"></p>
+
+    <script src="verify.js"></script>
+</body>
+</html>

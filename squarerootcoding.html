@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Enable LaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+    <title>DYI Square Root Function - Python</title>
+</head>
+<body>
+    <h1>Create a DYI Square Root function in Python</h1>
+    <p>You've learnt to take the square root of any number in Python with this: </p>
+<pre><code>
+import math
+print(math.sqrt(9)) #3.0
+</code></pre>
+    <p>Or this:</p>
+<pre><code>
+print(9 ** (1/2)) #3.0
+</code></pre>
+    <p>But where's the fun in that? When you can make your own DIY sqrt(x) function.</p>
+    <p>Let's look at how you can approxomate square roots before calculators: </p>
+
+    <div class="math">\[
+        \sqrt{s} \approx{} \sqrt{a} + \frac{s - a}{2\sqrt{a}}
+    \]</div>
+
+    <p>Where a is the closest perfect square to s. The more interations of this you do, the more accurate the result gets.</p>
+
+    <p>Let's do an example with the square root of 37 over 2 iterations of this</p>
+
+    <h2>Iteration 1</h2>
+    <div class="math">\[
+        \sqrt{37} \approx{} \sqrt{36} + \frac{37 - 36}{2\sqrt{36}} \approx{} 6.083
+    \]</div>
+
+    <h2>Iteration 2</h2>
+    <div class="math">\[
+        \sqrt{a} = 6.083 \therefore{} a = 37.002889
+    \]</div>
+    <div class="math">\[
+        \sqrt{37} \approx{} 6.083 + \frac{37 - 37.002889}{2 \cdot{} 6.083} \approx{} 6.08276
+    \]</div>
+    <div class="math">\[
+        \sqrt{37} = 6.08276...
+    \]</div>
+
+    <p>See how accurate it is to the accual answer? With Python, with more iterations of this, the more time it takes to calculate this, but also the more accurate.
+
+    </p>
+</body>
+</html>
