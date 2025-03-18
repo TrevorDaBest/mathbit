@@ -23,7 +23,11 @@ signUpButton.addEventListener("click", async function (e) {
     document.getElementById("hiddenMessage").value = 
       "Welcome to Mathbit!! Begin learning today!!";
 
-    fetch('https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133/latest')
+    fetch('https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133/latest', {
+        method: "GET",
+        headers: {
+            "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO"
+    )
     .then(response => response.json())
     .then(data => console.log(data));
 });
