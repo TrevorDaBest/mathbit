@@ -32,6 +32,7 @@ signUpButton.addEventListener("click", async function (e) {
     })
     .then(response => response.json())
     .then(data => {
+        console.log(data);
         if(username.value in data.result) {
             if(data.result[username.value]["pass"] == password.value) {
                 alert(`Welcome Back, ${username.value}`);
