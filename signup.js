@@ -32,8 +32,16 @@ signUpButton.addEventListener("click", async function (e) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+        for(let i = 0; i < data.record.length; I++) {
+            if(data.record[username.value]) {
+                if(data.record[username.value]["pass"] = password.value) {
+                    alert(`Welcome back, {username.value}.`);
+                    open("homepage.html");
+                }
+            }
+        }
         alert(`Welcome, ${username.value}! Your signup is complete.`);
+        open("homepage.html");
     })
     .catch(error => {
         console.error("Error:", error);
