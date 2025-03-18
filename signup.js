@@ -32,10 +32,13 @@ signUpButton.addEventListener("click", async function (e) {
     })
     .then(response => response.json())
     .then(data => {
-        if(data.record[username.value]) {
-            if(data.record[username.value]["pass"] = password.value) {
-                alert(`Welcome back, {username.value}.`);
-                open("homepage.html");
+        for (let i = 0; i < data.record.length; i++) {
+            if (data.record[i].username === username.value) {
+                if (data.record[i].pass === password.value) {
+                    alert(`Welcome back, ${username.value}.`);
+                    open("homepage.html");
+                    return;
+                }
             }
         }
         alert(`Welcome, ${username.value}! Your signup is complete.`);
@@ -46,3 +49,4 @@ signUpButton.addEventListener("click", async function (e) {
         alert("Failed to retrieve data. Please try again.");
     });
 });
+
