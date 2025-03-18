@@ -26,7 +26,8 @@ signUpButton.addEventListener("click", async function (e) {
     fetch('https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133/latest', {
         method: "GET",
         headers: {
-            "X-Access-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO"
+            "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO",
+            "X-Bin-Private": false
     )
     .then(response => response.json())
     .then(data => console.log(data));
