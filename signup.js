@@ -32,13 +32,10 @@ signUpButton.addEventListener("click", async function (e) {
     })
     .then(response => response.json())
     .then(data => {
-        for (let i = 0; i < data.record.length; i++) {
-            if (data.record[i].username === username.value) {
-                if (data.record[i].pass === password.value) {
-                    alert(`Welcome back, ${username.value}.`);
-                    open("homepage.html");
-                    return;
-                }
+        if(data.result[username.value]) {
+            if(data.result[username.value]["pass"] == password.value) {
+                alert(`Welcome Back, ${username.value}`);
+                open("homepage.html");
             }
         }
         alert(`Welcome, ${username.value}! Your signup is complete.`);
