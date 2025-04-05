@@ -42,7 +42,6 @@ signUpButton.addEventListener("click", async function (e) {
   fetch("https://api.jsonbin.io/v3/bins/BIN_ID", {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json",
       "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO"
     },
     body: JSON.stringify({
