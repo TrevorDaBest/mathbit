@@ -4,7 +4,7 @@ const email = document.getElementById("email");
 const password = document.getElementById("pass");
 const info = document.getElementById("info");
 
-signUpButton.addEventListener("click", async function(e) {
+signUpButton.addEventListener("click", async function (e) {
   e.preventDefault();
 
   // Basic validation
@@ -30,58 +30,38 @@ signUpButton.addEventListener("click", async function(e) {
       "X-Bin-Private": false
     }
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error("Error fetching data:", error);
+      alert("Failed to retrieve data. Please try again.");
+    });
 
-    if (username.value in data.record) {
-      // Existing user: verify password
-      if (data["record"][username.value]["pass"] === password.value) {
-        alert(`Welcome Back, ${username.value}`);
-        localStorage.setItem("users", username.value);
-        window.location.href = "homepage.html";  // Use window.location for page redirection
-      } else {
-        alert("Incorrect password. Please try again.");
+  fetch("https://api.jsonbin.io/v3/bins/BIN_ID", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO"
+    },
+    body: JSON.stringify({
+      "username": username.value,
+      "email": email.value,
+      "pass": password.value,
+      "info": {
+        "picoins": 500,
+        "status": "Creator",
+        "knowlegeCheckCompleted": false,
+        "duelsWon": 0,
+        "duelsLoss": 0
       }
-    } else {
-      let userInfo = {
-        email: email.value,
-        pass: password.value,
-        info: {
-          picoins: 0,
-          status: "New User",
-          knowledgeCheckCompleted: false,
-          duelsWon: 0,
-          duelsLost: 0
-        }
-      };
-
-      // Update the record with the new user info
-      data.record[username.value] = userInfo;
-
-      fetch("https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO"
-        },
-        body: JSON.stringify(data)
-      })
-      .then(response => response.json())
-      .then(updated => {
-        console.log("Data updated:", updated);
-        alert(`Welcome, ${username.value}! Your signup is complete.`);
-        localStorage.setItem("users", username.value);
-        window.location.href = "homepage.html";  // Use window.location for page redirection
-      })
-      .catch(err => {
-        alert("Failed to SignUp.");
-        console.error("Error:", err);
-      });
-    }
+    })
   })
-  .catch(error => {
-    console.error("Error:", error);
-    alert("Failed to retrieve data. Please try again.");
-  });
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => {
+      console.error("Error updating data:", error);
+      alert("Failed to update data. Please try again.");
+    });
 });
