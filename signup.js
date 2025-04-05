@@ -39,7 +39,7 @@ signUpButton.addEventListener("click", async function (e) {
       alert("Failed to retrieve data. Please try again.");
     });
 
-  fetch("https://api.jsonbin.io/v3/bins67d8d74b8960c979a573d133", {
+  fetch("https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
