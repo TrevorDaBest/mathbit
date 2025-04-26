@@ -1,101 +1,80 @@
-const signUpButton = document.getElementById("signup");
-const username = document.getElementById("user");
-const email = document.getElementById("email");
-const password = document.getElementById("pass");
-const info = document.getElementById("info");
-
 signUpButton.addEventListener("click", async function (e) {
   e.preventDefault();
+  signUpButton.disabled = true; // Prevent spamming
 
-  // Basic validation
   if (!email.value.match(/^\S+@\S+\.\S+$/)) {
     alert("Please enter a valid email address.");
+    signUpButton.disabled = false;
     return;
   }
   if (!info.checkValidity()) {
     alert("Please fill out all required fields.");
+    signUpButton.disabled = false;
     return;
   }
 
-  document.getElementById("hiddenUsername").value = username.value;
-  document.getElementById("hiddenPassword").value = password.value;
-  document.getElementById("hiddenUserEmail").value = email.value;
-  document.getElementById("hiddenMessage").value = "Welcome to Mathbit!! Begin learning today!!";
-
   try {
-    // 1. Fetch existing users
     const response = await fetch('https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133/latest', {
       method: "GET",
       headers: {
-        "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO",
+        "X-Master-Key": "YOUR-KEY",
         "X-Bin-Private": false
       }
     });
 
     const data = await response.json();
-    console.log("Fetched Data:", data); // Log the data to inspect it
-
-    // Check if data.record is actually an array or an object
     let users = [];
+
     if (Array.isArray(data.record)) {
-      console.log("It's an array");
-      users = data.record;  // Directly use data.record if it's an array
+      users = data.record;
+    } else if (typeof data.record === 'object') {
+      users = [data.record];
+    }
+
+    let userExists = users.some(u => u.username === username.value || u.email === email.value);
+
+    if (userExists) {
+      alert(`Welcome back, ${username.value}!`);
     } else {
-      console.log("It's not an array, checking for object structure");
-      // Check if it's a valid object and create an empty array if not
-      users = data.record && typeof data.record === 'object' ? [data.record] : [];
-    }
-
-    let userInDB = false;
-
-    // 2. Create new user object
-    const user = {
-      username: username.value,
-      email: email.value,
-      pass: password.value,
-      info: {
-        picoins: 0,
-        status: "New User",
-        knowlegeCheckCompleted: false,
-        duelsWon: 0,
-        duelsLoss: 0
-      }
-    };
-
-    // 3. Check if user exists with matching username, email, and password
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].username === username.value && users[i].email === email.value && users[i].pass === password.value) {
-        alert(`Welcome Back, ${username.value}!`);
-        userInDB = true;
-        break;
-      }
-    }
-
-    // 4. If not found, add to users
-    if (!userInDB) {
+      const user = {
+        username: username.value,
+        email: email.value,
+        pass: password.value,
+        info: {
+          picoins: 0,
+          status: "New User",
+          knowlegeCheckCompleted: false,
+          duelsWon: 0,
+          duelsLoss: 0
+        }
+      };
       users.push(user);
 
+      // Now safely update (PUT) AFTER everything is ready
       const updateResponse = await fetch('https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133', {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO"
+          "X-Master-Key": "YOUR-KEY"
         },
-        body: JSON.stringify({ record: users }) // Send updated users list as an object with 'record' key
+        body: JSON.stringify({ record: users })
       });
 
       const updateData = await updateResponse.json();
       console.log(updateData);
 
       alert("Sign up successful!");
+      localStorage.setItem("user", JSON.stringify(user));
     }
 
-    localStorage.setItem("user", JSON.stringify(user));
-
-    open("homepage.html");
+    // Only after everything is done, navigate
+    window.location.href = "homepage.html";
 
   } catch (error) {
     console.error("Error:", error);
     alert("Something went wrong. Please try again.");
+  } finally {
+    signUpButton.disabled = false;
   }
 });
+
