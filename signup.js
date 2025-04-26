@@ -42,7 +42,7 @@ signUpButton.addEventListener("click", async function (e) {
       email: email.value,
       pass: password.value,
       info: {
-        picoins: 500,
+        picoins: 0,
         status: "New User",
         knowlegeCheckCompleted: false,
         duelsWon: 0,
