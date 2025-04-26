@@ -33,7 +33,7 @@ signUpButton.addEventListener("click", async function (e) {
     if (data && data.record) {
       if (Array.isArray(data.record)) {
         users = data.record;
-      } else if (typeof data.record === "object") {
+      } else {
         users = [data.record];
       }
     }
@@ -72,7 +72,7 @@ signUpButton.addEventListener("click", async function (e) {
         "Content-Type": "application/json",
         "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO"
       },
-      body: JSON.stringify({ record: users })
+      body: JSON.stringify({users})
     });
 
     const updateData = await updateResponse.json();
