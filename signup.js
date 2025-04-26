@@ -90,6 +90,10 @@ signUpButton.addEventListener("click", async function (e) {
       alert("Sign up successful!");
     }
 
+    localStorage.setItem("user", JSON.stringify(user));
+
+    open("homepage.html");
+
   } catch (error) {
     console.error("Error:", error);
     alert("Something went wrong. Please try again.");
