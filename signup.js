@@ -49,42 +49,26 @@ signUpButton.addEventListener("click", async function (e) {
       return; // <--- IMPORTANT! Stop here if exists!
     }
 
-    // 3. Else, create a new user
+    // 1. Pull username/email/pass, hash pass
     const newUser = {
-      username: username.value,
-      email: email.value,
-      pass: password.value,
-      info: {
-        picoins: 0,
-        status: "New User",
-        knowledgeCheckCompleted: false,
-        duelsWon: 0,
-        duelsLoss: 0
-      }
+      username: user.value.trim(),
+      email: email.value.trim(),
+      passHash: await hash(password.value),
+      info: { picoins: 0, status: "New", duelsWon: 0, duelsLoss: 0 }
     };
-
-    users.push(newUser);
     
-    // 4. Upload updated users (only if NEW USER)
-    const updateResponse = await fetch('https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133', {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO"
-      },
-      body: JSON.stringify(users)
+    // 2. POST to a secure endpoint; server does the duplicate check
+    const res = await fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newUser)
     });
+    
+    // 3. Receive a JWT, store in sessionStorage
+    const { token } = await res.json();
+    sessionStorage.setItem("jwt", token);
+    location.href = "/homepage.html";
 
-    const updateData = await updateResponse.json();
-    console.log("Updated Data:", updateData);
-
-    alert("Sign up successful!");
-
-    // 5. Save the new user locally
-    localStorage.setItem("user", JSON.stringify(newUser));
-
-    // 6. Redirect
-    window.location.href = "homepage.html";
 
   } catch (error) {
     console.error("Error:", error);
