@@ -63,8 +63,8 @@ signUpButton.addEventListener("click", async function (e) {
       }
     };
 
-    users.push(newUser); // add to the array
-
+    users.push(newUser);
+    
     // 4. Upload updated users (only if NEW USER)
     const updateResponse = await fetch('https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133', {
       method: "PUT",
@@ -72,7 +72,7 @@ signUpButton.addEventListener("click", async function (e) {
         "Content-Type": "application/json",
         "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO"
       },
-      body: JSON.stringify({users})
+      body: JSON.stringify({record: users})
     });
 
     const updateData = await updateResponse.json();
