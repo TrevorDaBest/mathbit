@@ -30,11 +30,11 @@ signUpButton.addEventListener("click", async function (e) {
     console.log("Fetched Data:", data);
 
     let users = [];
-    if (data && data.record) {
-      if (Array.isArray(data.record)) {
-        users = data.record;
+    if (data) {
+      if (Array.isArray(data)) {
+        users = data;
       } else {
-        users = [data.record];
+        users = [data];
       }
     }
 
