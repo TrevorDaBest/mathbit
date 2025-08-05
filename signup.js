@@ -33,7 +33,7 @@ signUpButton.addEventListener("click", async function (e) {
     const response = await fetch('https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133/latest', {
       method: "GET",
       headers: {
-        "X-Master-Key": "YOUR_JSONBIN_MASTER_KEY",
+        "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO",
         "X-Bin-Private": "false"
       }
     });
@@ -76,7 +76,7 @@ signUpButton.addEventListener("click", async function (e) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "X-Master-Key": "YOUR_JSONBIN_MASTER_KEY",
+        "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO",
         "X-Bin-Private": "false"
       },
       body: JSON.stringify(updatedRecord)
@@ -95,6 +95,7 @@ signUpButton.addEventListener("click", async function (e) {
     alert("Something went wrong. Please try again later.");
   }
 });
+
 
 
 
