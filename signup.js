@@ -3,86 +3,98 @@ const username = document.getElementById("user");
 const email = document.getElementById("email");
 const password = document.getElementById("pass");
 const info = document.getElementById("info");
-const alpahbet = "abcdefghijklmnopqrstuvwxyz";
 
-function encrypt(string) {
-  for(let i = 0; i < string.length; i++) {
-    for(let j == 0; j < 26; j++) {
-      
+// Simple SHA-256 hashing function using Web Crypto API
+async function hash(str) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(str);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 signUpButton.addEventListener("click", async function (e) {
   e.preventDefault();
 
+  // Basic email validation
   if (!email.value.match(/^\S+@\S+\.\S+$/)) {
     alert("Please enter a valid email address.");
     return;
   }
-  if (!info.checkValidity()) {
+
+  // Check all required fields filled (you can customize this)
+  if (!username.value.trim() || !password.value.trim()) {
     alert("Please fill out all required fields.");
     return;
   }
 
   try {
-    // 1. Fetch existing users
+    // 1. Fetch existing users from JSONBin
     const response = await fetch('https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133/latest', {
       method: "GET",
       headers: {
-        "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO",
-        "X-Bin-Private": false
+        "X-Master-Key": "YOUR_JSONBIN_MASTER_KEY",
+        "X-Bin-Private": "false"
       }
     });
 
     const data = await response.json();
-    console.log("Fetched Data:", data);
-howdo i create backend
-    
-    let users = [];
-    if (data.record) {
-      if (Array.isArray(data.record)) {
-        users = data.record;
-      } else {
-        users = [data.record];
-      }
-    }
+    // Grab users array, or empty array if none yet
+    const users = data.record?.users || [];
 
-    // 2. Check if username already exists
-    const existingUser = users.find(user => user.username.toLowerCase() === username.value.toLowerCase());
+    // 2. Check if username already exists (case-insensitive)
+    const existingUser = users.find(user => user.username.toLowerCase() === username.value.trim().toLowerCase());
 
     if (existingUser) {
-      // ONLY LOGIN - NO UPDATE
       alert(`Welcome back, ${existingUser.username}!`);
       localStorage.setItem("userInfo", JSON.stringify(existingUser));
       window.location.href = "homepage.html";
-      return; // <--- IMPORTANT! Stop here if exists!
+      return; // Stop here if user exists
     }
 
-    // 1. Pull username/email/pass, hash pass
+    // 3. Create new user object with hashed password
     const newUser = {
       username: username.value.trim(),
       email: email.value.trim(),
-      passHash: await hash(password.value),
-      info: { picoins: 0, status: "New", duelsWon: 0, duelsLoss: 0 }
+      passHash: await hash(password.value.trim()),
+      info: {
+        picoins: 0,
+        status: "New",
+        duelsWon: 0,
+        duelsLoss: 0
+      }
     };
+
+    // Add new user to the users array
     users.push(newUser);
-    
-    // 2. POST to a secure endpoint; server does the duplicate check
-    const res = await fetch("https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133", {
+
+    // 4. Prepare updated record to PUT back
+    const updatedRecord = { users: users };
+
+    // 5. PUT updated users array back to JSONBin
+    const putResponse = await fetch('https://api.jsonbin.io/v3/b/67d8d74b8960c979a573d133', {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "X-Master-Key": "$2a$10$AXWsyAJefWxrdK/lPk8lk.Y005tZgrR1rv1oJIyFOvWJWF7euAYCO",
-        "X-Bin-Private": false
+        "X-Master-Key": "YOUR_JSONBIN_MASTER_KEY",
+        "X-Bin-Private": "false"
       },
-      body: JSON.stringify(users)
+      body: JSON.stringify(updatedRecord)
     });
-    
-    sessionStorage.setItem("userInfo", newUser);
-    location.href = "/homepage.html";
 
+    if (!putResponse.ok) {
+      throw new Error("Failed to update user database.");
+    }
+
+    // 6. Store new user info in session storage and redirect
+    sessionStorage.setItem("userInfo", JSON.stringify(newUser));
+    location.href = "homepage.html";
 
   } catch (error) {
     console.error("Error:", error);
     alert("Something went wrong. Please try again later.");
   }
 });
+
+
 
