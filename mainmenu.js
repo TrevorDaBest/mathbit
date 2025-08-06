@@ -1,5 +1,5 @@
-var userInfo = sessionStorage.getItem("UserInfo")
+var userInfo = sessionStorage.getItem("userInfo")
 
-var user = JSON.parse(LocalStorage.GetItem("user"))
-welcomeText.textContent = "Welcome, " + user.username + "!"
+welcomeText.textContent = "Welcome, " + userInfo.username + "!"
+
 
