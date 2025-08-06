@@ -87,7 +87,7 @@ signUpButton.addEventListener("click", async function (e) {
     }
 
     // 6. Store new user info in session storage and redirect
-    sessionStorage.setItem("userInfo", JSON.stringify(newUser));
+    localStorage.setItem("userInfo", JSON.stringify(newUser));
     location.href = "homepage.html";
 
   } catch (error) {
@@ -95,6 +95,7 @@ signUpButton.addEventListener("click", async function (e) {
     alert("Something went wrong. Please try again later.");
   }
 });
+
 
 
 
